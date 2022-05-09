@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose ./src/__tests__",
     "watch": "webpack --watch",
     "start": "webpack serve --open",
     "build": "webpack"
@@ -21,31 +21,12 @@
   },
   "homepage": "https://github.com/xewar/battleship#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.17.10",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^28.1.0",
     "style-loader": "^3.3.1",
     "webpack-dev-server": "^4.9.0"
-  },
-  "jest": {
-    "modulePaths": [
-      "/shared/vendor/modules"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "bower_components",
-      "shared"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
-      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js",
-      "^react(.*)$": "<rootDir>/vendor/react-master$1",
-      "^config$": "<rootDir>/configs/app-config.js"
-    }
   }
 }

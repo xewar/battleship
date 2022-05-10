@@ -31,12 +31,14 @@ let gameboard = (() => {
     //place ships
     for (let i = 0; i < ship.getLength(); i++) {
       let convertedCoordinates = coordinates;
+      // gameboard.placeShip(board, ship(1), [2, 1], 'vertical'))
       if (rotation === 'horizontal') {
-        convertedCoordinates = canvasSize * coordinates[0] + coordinates[1] + i;
+        convertedCoordinates = coordinates[0] + i + canvasSize * coordinates[1];
       } else {
         convertedCoordinates =
           coordinates[0] + canvasSize * (coordinates[1] + i);
       }
+      console.log('Starting', coordinates, 'cc', convertedCoordinates, 'i', i);
       if (newBoard[convertedCoordinates][2] === 'filled') {
         //if the square is already full, can't place ship there
         console.log('square is full');
@@ -49,7 +51,12 @@ let gameboard = (() => {
     return board;
   };
 
-  //receiveAttack - takes coordinates and then determine whether or not the attack hit a ship
+  let receiveAttack = (coordinates, board) => {
+    // determine whether or not the attack hit a ship
+    // if board[coordinates]
+  };
+
+  //receiveAttack - takes coordinates and then
   //then sends the hit function to the correct ship
   //or records the coordinates of the missed shot
 

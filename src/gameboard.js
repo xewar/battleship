@@ -12,16 +12,16 @@ let gameboard = (() => {
   let getBoard = () => board;
 
   //place ships at specific coordinates by calling the ship's factory function
-  const placeShip = (ship, coordinates, rotation) => {
+  const placeShip = (board, ship, coordinates, rotation) => {
     let newBoard = board;
     //check that the ship can fit
     if (rotation === 'horizontal') {
-      if (coordinates[0] + ship.getLength() >= canvasSize) {
+      if (coordinates[0] + ship.getLength() > canvasSize) {
         //ship doesn't fit
         return board;
       }
     } else if (rotation === 'vertical') {
-      if (coordinates[1] + ship.getLength() >= canvasSize) {
+      if (coordinates[1] + ship.getLength() > canvasSize) {
         //ship doesn't fit
         return board;
       }
@@ -34,7 +34,7 @@ let gameboard = (() => {
         convertedCoordinates = canvasSize * coordinates[0] + coordinates[1] + i;
       } else {
         convertedCoordinates =
-          canvasSize * (coordinates[0] + i) + coordinates[0];
+          coordinates[0] + canvasSize * (coordinates[1] + i);
       }
       if (newBoard[convertedCoordinates][2] === 'filled') {
         //if the square is already full, can't place ship there

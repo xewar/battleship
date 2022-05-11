@@ -52,3 +52,36 @@ test('gameboard space already has a ship on it', () => {
     gameboard.placeShip(3, filledMock, ship(3), [0, 0], 'horizontal')
   ).toEqual();
 });
+
+test.only('board updates with multiple ships', () => {
+  let filledMock = [
+    [0, 0, null],
+    [1, 0, null],
+    [2, 0, 'filled'],
+    [0, 1, null],
+    [1, 1, null],
+    [2, 1, null],
+    [0, 2, null],
+    [1, 2, null],
+    [2, 2, null],
+  ];
+  expect(
+    gameboard.placeShip(
+      3,
+      filledMock,
+      gameboard.allShips['cruiser'],
+      [1, 0],
+      'vertical'
+    )
+  ).toEqual([
+    [0, 0, null],
+    [1, 0, 'filled'],
+    [2, 0, 'filled'],
+    [0, 1, null],
+    [1, 1, 'filled'],
+    [2, 1, null],
+    [0, 2, null],
+    [1, 2, 'filled'],
+    [2, 2, null],
+  ]);
+});

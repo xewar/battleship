@@ -12,14 +12,15 @@ let gameboard = (() => {
   };
 
   //create gameboard, standard size is  10x10
-  let canvasSize = 3;
-  let board = [];
-  for (let i = 0; i < canvasSize; i++) {
-    for (let j = 0; j < canvasSize; j++) {
-      board.push([j, i, null]);
+  let createBoard = canvasSize => {
+    let board = [];
+    for (let i = 0; i < canvasSize; i++) {
+      for (let j = 0; j < canvasSize; j++) {
+        board.push([j, i, null]);
+      }
     }
-  }
-  let getBoard = () => board;
+    return board;
+  };
 
   //checks if ship fits on gameboard as its placed initially
   const shipFits = (canvasSize, ship, coordinates, rotation) => {
@@ -65,6 +66,7 @@ let gameboard = (() => {
     }
     ship.position = shipPosition;
     board = newBoard;
+    console.log(board);
     return board;
   };
   let missedAttacks = [];
@@ -73,14 +75,12 @@ let gameboard = (() => {
     let convertedCoordinate = coordinates[0] + canvasSize * coordinates[1];
     if (board[convertedCoordinate][2] === 'filled') {
       //then sends the hit function to the correct ship
-      shipsArray.forEach(
-        ship =>
-          function () {
-            if (ship['position'][convertedCoordinate] === 'filled') {
-              ship.hit(convertedCoordinate);
-            }
-          }
-      );
+      for (const ship in allShips) {
+        if (ship.position[convertedCoordinate] === 'filled') {
+          ship.hit(convertedCoordinate);
+          console.log(ship.position);
+        }
+      }
     } else {
       //or records the coordinates of the missed shot
       missedAttacks.push(convertedCoordinate);
@@ -90,7 +90,14 @@ let gameboard = (() => {
   //track missed attacks (so they can display them properly)
 
   //report whether or not all the ships have sunk
-  return { getBoard, placeShip, getMissedAttacks, shipFits, allShips };
+  return {
+    createBoard,
+    placeShip,
+    getMissedAttacks,
+    shipFits,
+    allShips,
+    receiveAttack,
+  };
 })();
 
 export { gameboard };

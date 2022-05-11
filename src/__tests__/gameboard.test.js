@@ -31,8 +31,9 @@ test('place ship vertically', () => {
 test("ship doesn't fit", () => {
   let copyMock = mockGameboard.map(i => [...i]);
   expect(
-    gameboard.placeShip(3, copyMock, ship(3), [0, 2], 'vertical')
-  ).toEqual();
+    gameboard.shipFits(3, gameboard.allShips['carrier'], [0, 2], 'vertical')
+    // gameboard.placeShip(3, copyMock, ship(3), [0, 2], 'vertical')
+  ).toEqual(false);
 });
 
 test('gameboard space already has a ship on it', () => {
@@ -49,15 +50,5 @@ test('gameboard space already has a ship on it', () => {
   ];
   expect(
     gameboard.placeShip(3, filledMock, ship(3), [0, 0], 'horizontal')
-  ).toEqual([
-    [0, 0, null],
-    [1, 0, null],
-    [2, 0, 'filled'],
-    [0, 1, null],
-    [1, 1, null],
-    [2, 1, null],
-    [0, 2, null],
-    [1, 2, null],
-    [2, 2, null],
-  ]);
+  ).toEqual();
 });

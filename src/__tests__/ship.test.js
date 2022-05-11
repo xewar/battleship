@@ -5,10 +5,10 @@ test('shipLength', () => {
 });
 
 test('hitMap updates with strike position', () => {
-  expect(ship(3).hit(2)).toEqual([0, 0, 1]);
+  expect(ship(3).hit(2)).toEqual({ 2: 'hit' });
 });
 
-test('isSunk evaluates to true when sunk', () => {
-  let mockHitMap = [1, 1];
-  expect(ship(2).isSunk(mockHitMap)).toBe(true);
+test.only('isSunk evaluates to true when sunk', () => {
+  let mockPosition = { 2: 'hit', 3: 'filled' };
+  expect(ship(2).isSunk(mockPosition)).toBe(false);
 });

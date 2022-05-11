@@ -1,22 +1,20 @@
 let ship = length => {
   let getLength = () => length;
-  let hitMap = new Array(length).fill(0);
-
-  const hit = strikePosition => {
-    hitMap[strikePosition] = 1;
-    return hitMap;
+  let position = {};
+  const hit = strikeCoordinates => {
+    position[strikeCoordinates] = 'hit';
+    return position;
   };
-  const isSunk = hitMap => {
-    let sunk = hitMap.every(position => position === 1);
+  const isSunk = position => {
+    let sunk = !Object.values(position).includes('filled');
     return sunk;
   };
 
-  return { getLength, hit, isSunk };
+  return { getLength, hit, isSunk, position };
 };
 
 export { ship };
 
-// let carrier = ship(5)
 // Carrier	5
 // Battleship	4
 // Cruiser	3

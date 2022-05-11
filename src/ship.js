@@ -1,7 +1,7 @@
 let ship = length => {
   let getLength = () => length;
   let position = {};
-  const hit = strikeCoordinates => {
+  const hit = (strikeCoordinates, position) => {
     position[strikeCoordinates] = 'hit';
     return position;
   };
@@ -14,9 +14,3 @@ let ship = length => {
 };
 
 export { ship };
-
-// Carrier	5
-// Battleship	4
-// Cruiser	3
-// Submarine	3
-// Destroyer	2

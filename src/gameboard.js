@@ -10,7 +10,7 @@ let gameboard = (() => {
     submarine1: ship(1),
     submarine2: ship(1),
   };
-
+  let canvasSize = 3;
   //create gameboard, standard size is  10x10
   let createBoard = canvasSize => {
     let board = [];
@@ -66,19 +66,17 @@ let gameboard = (() => {
     }
     ship.position = shipPosition;
     board = newBoard;
-    console.log(board);
     return board;
   };
   let missedAttacks = [];
   let getMissedAttacks = () => missedAttacks;
-  let receiveAttack = (coordinates, board) => {
+  let receiveAttack = (coordinates, board, allShips) => {
     let convertedCoordinate = coordinates[0] + canvasSize * coordinates[1];
     if (board[convertedCoordinate][2] === 'filled') {
       //then sends the hit function to the correct ship
       for (const ship in allShips) {
-        if (ship.position[convertedCoordinate] === 'filled') {
-          ship.hit(convertedCoordinate);
-          console.log(ship.position);
+        if (allShips[ship].position[convertedCoordinate] === 'filled') {
+          allShips[ship].hit(convertedCoordinate, allShips[ship].position);
         }
       }
     } else {

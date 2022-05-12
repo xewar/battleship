@@ -10,5 +10,5 @@ test('hitMap updates with strike position', () => {
 
 test.only('isSunk evaluates to true when sunk', () => {
   let mockPosition = { 2: 'hit', 3: 'filled' };
-  expect(ship(2).isSunk(mockPosition)).toBe(false);
+  expect(ship(2).shipIsSunk(mockPosition)).toBe(false);
 });

@@ -10,8 +10,8 @@ let gameboard = (() => {
     submarine1: ship(1),
     submarine2: ship(1),
   };
-  let canvasSize = 3;
   //create gameboard, standard size is  10x10
+  let canvasSize = 3;
   let createBoard = canvasSize => {
     let board = [];
     for (let i = 0; i < canvasSize; i++) {
@@ -70,6 +70,8 @@ let gameboard = (() => {
   };
   let missedAttacks = [];
   let getMissedAttacks = () => missedAttacks;
+
+  //game logic for when an attack comes in
   let receiveAttack = (coordinates, board, allShips) => {
     let convertedCoordinate = coordinates[0] + canvasSize * coordinates[1];
     if (board[convertedCoordinate][2] === 'filled') {
@@ -85,10 +87,20 @@ let gameboard = (() => {
     }
   };
 
-  //track missed attacks (so they can display them properly)
-
   //report whether or not all the ships have sunk
+  //returns true if they are all sunk, otherwise returns false
+  let allSunk = allShips => {
+    for (const ship in allShips) {
+      //check if any ships are not sunk
+      //if any return true, then not all are sunk. otherwise, return false
+      if (!allShips[ship].shipIsSunk(allShips[ship].position)) {
+        return false;
+      }
+    }
+    return true;
+  };
   return {
+    allSunk,
     createBoard,
     placeShip,
     getMissedAttacks,

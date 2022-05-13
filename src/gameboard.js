@@ -12,8 +12,8 @@ let gameboard = (() => {
   };
   //create gameboard, standard size is  10x10
   let canvasSize = 3;
+  let board = [];
   let createBoard = canvasSize => {
-    let board = [];
     for (let i = 0; i < canvasSize; i++) {
       for (let j = 0; j < canvasSize; j++) {
         board.push([j, i, null]);
@@ -43,12 +43,13 @@ let gameboard = (() => {
   //place ships at specific coordinates by calling the ship's factory function
   const placeShip = (canvasSize, board, ship, coordinates, rotation) => {
     //checks to see if the ship goes over the edge of the gameboard
-    if (!shipFits(canvasSize, ship, rotation, coordinates)) {
-      return;
+    let shipPosition = {};
+    let returnValue = [0, 0];
+    if (!shipFits(canvasSize, ship, coordinates, rotation)) {
+      return returnValue;
     }
     //place ships
     let newBoard = board.map(i => [...i]);
-    let shipPosition = {};
     for (let i = 0; i < ship.getLength(); i++) {
       let convertedCoordinates = coordinates;
       if (rotation === 'horizontal') {
@@ -59,14 +60,14 @@ let gameboard = (() => {
       }
       if (newBoard[convertedCoordinates][2] === 'filled') {
         //if the square is already full, can't place ship there
-        return;
+        return returnValue;
       }
       shipPosition[convertedCoordinates] = 'filled';
       newBoard[convertedCoordinates][2] = 'filled';
     }
-    ship.position = shipPosition;
-    board = newBoard;
-    return board;
+    returnValue[0] = shipPosition;
+    returnValue[1] = newBoard;
+    return returnValue;
   };
   let missedAttacks = [];
   let getMissedAttacks = () => missedAttacks;
@@ -102,6 +103,7 @@ let gameboard = (() => {
   return {
     allSunk,
     createBoard,
+    board,
     placeShip,
     getMissedAttacks,
     shipFits,

@@ -11,7 +11,6 @@ let gameboard = (() => {
     submarine2: ship(1),
   };
   //create gameboard, standard size is  10x10
-  let canvasSize = 3;
   let board = [];
   let createBoard = canvasSize => {
     for (let i = 0; i < canvasSize; i++) {

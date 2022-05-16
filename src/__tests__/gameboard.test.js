@@ -24,19 +24,19 @@ let filledMock = [
 ];
 test('place ship vertically', () => {
   let copyMock = mockGameboard.map(i => [...i]); //deep copy so as not to keep copying + pasting the gameboard array
-  expect(gameboard.placeShip(3, copyMock, ship(3), [0, 0], 'vertical')).toEqual(
-    [
-      [0, 0, 'filled'],
-      [1, 0, null],
-      [2, 0, null],
-      [0, 1, 'filled'],
-      [1, 1, null],
-      [2, 1, null],
-      [0, 2, 'filled'],
-      [1, 2, null],
-      [2, 2, null],
-    ]
-  );
+  expect(
+    gameboard.placeShip(3, copyMock, ship(3), [0, 0], 'vertical')[1]
+  ).toEqual([
+    [0, 0, 'filled'],
+    [1, 0, null],
+    [2, 0, null],
+    [0, 1, 'filled'],
+    [1, 1, null],
+    [2, 1, null],
+    [0, 2, 'filled'],
+    [1, 2, null],
+    [2, 2, null],
+  ]);
 });
 
 test('ship placement would extend beyond the edge of the gameboard', () => {
@@ -48,8 +48,8 @@ test('ship placement would extend beyond the edge of the gameboard', () => {
 test('gameboard space already has a ship on it', () => {
   let copyFilled = filledMock.map(i => [...i]); //deep copy so as not to keep copying + pasting the gameboard array
   expect(
-    gameboard.placeShip(3, copyFilled, ship(3), [0, 0], 'horizontal')
-  ).toEqual();
+    gameboard.placeShip(3, copyFilled, ship(3), [0, 0], 'horizontal')[1]
+  ).toEqual(0);
 });
 
 test('board updates with multiple ships', () => {
@@ -61,7 +61,7 @@ test('board updates with multiple ships', () => {
       gameboard.allShips['submarine1'],
       [0, 0],
       'vertical'
-    )
+    )[1]
   ).toEqual([
     [0, 0, 'filled'],
     [1, 0, 'filled'],
@@ -75,6 +75,22 @@ test('board updates with multiple ships', () => {
   ]);
 });
 
+test('ship position updated when hit by an attack', () => {
+  let allShipsMock = { carrier: ship(5) };
+  allShipsMock['carrier'].position = {
+    1: 'filled',
+    4: 'filled',
+    7: 'filled',
+  };
+  let copyFilled = filledMock.map(i => [...i]); //deep copy so as not to keep copying + pasting the gameboard array
+  gameboard.receiveAttack([1, 0], copyFilled, allShipsMock, 3);
+  expect(allShipsMock['carrier'].position).toEqual({
+    1: 'hit',
+    4: 'filled',
+    7: 'filled',
+  });
+});
+
 test('if attack misses, missedAttacks updated', () => {
   let allShipsMock = { carrier: ship(5) };
   allShipsMock['carrier'].position = {
@@ -83,23 +99,7 @@ test('if attack misses, missedAttacks updated', () => {
     7: 'filled',
   };
   let copyFilled = filledMock.map(i => [...i]); //deep copy so as not to keep copying + pasting the gameboard array
-  gameboard.receiveAttack([1, 0], copyFilled, allShipsMock);
-  expect(allShipsMock['carrier'].position).toEqual({
-    1: 'hit',
-    4: 'filled',
-    7: 'filled',
-  });
-});
-
-test.only('ship hit in receiveAttack', () => {
-  let allShipsMock = { carrier: ship(5) };
-  allShipsMock['carrier'].position = {
-    1: 'filled',
-    4: 'filled',
-    7: 'filled',
-  };
-  let copyFilled = filledMock.map(i => [...i]); //deep copy so as not to keep copying + pasting the gameboard array
-  gameboard.receiveAttack([0, 0], copyFilled, allShipsMock);
-  gameboard.receiveAttack([2, 1], copyFilled, allShipsMock);
+  gameboard.receiveAttack([0, 0], copyFilled, allShipsMock, 3);
+  gameboard.receiveAttack([2, 1], copyFilled, allShipsMock, 3);
   expect(gameboard.getMissedAttacks()).toEqual([0, 5]);
 });

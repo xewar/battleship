@@ -72,8 +72,9 @@ let gameboard = (() => {
   let getMissedAttacks = () => missedAttacks;
 
   //game logic for when an attack comes in
-  let receiveAttack = (coordinates, board, allShips) => {
+  let receiveAttack = (coordinates, board, allShips, canvasSize) => {
     let convertedCoordinate = coordinates[0] + canvasSize * coordinates[1];
+    console.log(board);
     if (board[convertedCoordinate][2] === 'filled') {
       //then sends the hit function to the correct ship
       for (const ship in allShips) {

@@ -6,7 +6,7 @@ import { placeComputerShips } from './placeComputerShips.js';
 // For now just populate each Gameboard with predetermined coordinates.
 // You can implement a system for allowing players to place their ships later.
 
-let game = () => {
+let game = (() => {
   let canvasSize = 10; //standard size is 10x10
 
   let cg = gameboard; //computer gameboard
@@ -19,7 +19,7 @@ let game = () => {
   //call placeship functions for each player
   //players take turn attacking
   // player enters coordinates, computer picks them automatically
-  return { cg };
-};
+  return { cg, canvasSize };
+})();
 
 export { game };

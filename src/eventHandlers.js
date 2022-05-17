@@ -1,0 +1,2 @@
+let clickHandler = () => {};
+let changeHandler = () => {};

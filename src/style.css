@@ -2,14 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 :root {
-  --text: black;
-  --accent_0: #e6e6fa;
-  /* slate */
-  --accent_1: #f8fafc;
-  --accent_2: #e2e8f0;
-  /* indigo */
-  --accent_1: #eef2ff;
-  --accent_2: #e0e7ff;
+  --accent_1: rgba(61, 85, 136, 20%);
+  --accent_2: rgba(61, 85, 136, 40%);
+  --accent_3: rgba(255, 72, 176, 15%);
+  --accent_4: rgba(255, 72, 176, 25%);
+  --text: rgba(61, 85, 136, 85%);
   --background: white;
 }
 
@@ -17,33 +14,64 @@ body,
 html {
   font-family: 'Karla';
   background-color: var(--background);
+  color: var(--text);
+}
+body {
+  margin-left: 2em;
 }
 .mainContainer {
   display: grid;
-  grid-template-columns: 20vw 400px 5vw 400px 1fr;
-  grid-template-rows: 500px 1fr;
+  grid-template-columns: 300px 400px 5vw 400px 1fr;
+  grid-template-rows: max-content 1fr;
 }
 .shipContainer {
-  border: 2px solid var(--accent_1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 6px solid var(--accent_2);
   grid-column: 1;
-
-  height: 400px;
+  margin-right: 25px;
+  margin-left: 10px;
+  height: 300px;
+  padding: 10px;
+}
+p {
+  margin-bottom: 0.5em;
+  margin-top: 0;
+}
+.ships {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+.ship {
+  display: flex;
+  /* flex-direction: column; */
+  margin: 5px;
 }
 .gameboard {
   display: grid;
   grid-row: 1;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  width: 400px;
-  height: auto;
+  width: 420px;
+  height: 420px;
   gap: none;
+  border: 6px solid var(--accent_2);
 }
 .cell {
-  height: 40px;
-  width: 40px;
-  border: 1px solid var(--accent_2);
+  height: 30px;
+  width: 30px;
   background-color: var(--accent_1);
+
+  border: 6px solid var(--accent_2);
 }
+.shipCell {
+  background-color: var(--accent_3);
+  border: 6px solid var(--accent_4);
+}
+
 .description {
   margin-top: 2vh;
 }
@@ -52,4 +80,21 @@ html {
 }
 .computer {
   grid-column: 4;
+}
+
+@media only screen and (max-width: 750px) {
+  .mainContainer {
+    display: grid;
+    grid-template-columns: 40px 400px 1fr;
+  }
+  .computer {
+    grid-column: 2;
+  }
+  .shipContainer {
+    grid-column: 2;
+    width: 400px;
+    height: auto;
+    margin: 0;
+    margin-bottom: 1em;
+  }
 }

@@ -1,11 +1,29 @@
 import { game } from './game';
+import { gameboard } from './gameboard';
 
 let dom = (() => {
-  let header = document.querySelector('.header');
-  console.log(header.textContent);
+  let ships = document.querySelector('.ships');
   let hgDiv = document.querySelector('.humanBoard');
   let cgDiv = document.querySelector('.computerBoard');
-  //create human gameboard
+
+  //create ships
+  let createShip = () => {
+    for (let ship in gameboard.allShips) {
+      let shipDiv = document.createElement('div');
+      shipDiv.className = `${ship} ship`;
+      console.log(shipDiv);
+      for (let i = 0; i < gameboard.allShips[ship].getLength(); i++) {
+        let cell = document.createElement('div');
+        cell.className = 'cell shipCell';
+        cell.id = `${ship}, i`;
+        shipDiv.append(cell);
+      }
+      ships.append(shipDiv);
+    }
+  };
+  createShip();
+  //create gameboards
+
   let createGameboard = player => {
     for (let i = 0; i < game.canvasSize; i++) {
       for (let j = 0; j < game.canvasSize; j++) {

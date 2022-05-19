@@ -9,11 +9,11 @@ let dom = (() => {
   let cgDiv = document.querySelector('.computerBoard');
   //create ships
   let createShip = () => {
-    for (let ship in gameboard.allShips) {
+    for (let ship in hg.allShips) {
       let shipDiv = document.createElement('div');
       shipDiv.className = `ship horizontal`;
       shipDiv.draggable = true;
-      for (let i = 0; i < gameboard.allShips[ship].getLength(); i++) {
+      for (let i = 0; i < hg.allShips[ship].getLength(); i++) {
         let cell = document.createElement('div');
         cell.className = 'cell shipCell';
         cell.id = `${ship}${i}`;
@@ -26,7 +26,7 @@ let dom = (() => {
   createShip();
 
   //create gameboards
-  let createGameboard = player => {
+  let createDOMGameboard = player => {
     for (let i = 0; i < game.canvasSize; i++) {
       for (let j = 0; j < game.canvasSize; j++) {
         let cell = document.createElement('div');
@@ -36,22 +36,20 @@ let dom = (() => {
       }
     }
   };
-  createGameboard(hgDiv);
-  createGameboard(cgDiv);
+  createDOMGameboard(hgDiv);
+  createDOMGameboard(cgDiv);
 
   //change orientation of ship from horizontal to vertical
-
-  let rotation = 'horizontal';
 
   let changeOrientation = e => {
     let ship = e.target.parentElement;
     if (ship.classList.contains('horizontal')) {
+      hg.allShips[ship.id].rotation = 'vertical'; //changes the ships orientation
       ship.classList.remove('horizontal');
-      ship.style.gridTemplateColumns = null;
       ship.classList.add('vertical');
-      rotation = ' vertical';
+      ship.style.gridTemplateColumns = null;
     } else {
-      rotation = 'horizontal';
+      hg.allShips[ship.id].rotation = 'horizontal'; //changes the ships orientation
       ship.classList.add('horizontal');
       ship.classList.remove('vertical');
       ship.style.gridTemplateColumns = `repeat(${ship.children.length},42px)`;

@@ -1,6 +1,6 @@
 import { ship } from './ship.js';
 
-let gameboard = (() => {
+let gameboard = () => {
   const allShips = {
     carrier: ship(5),
     battleship: ship(4),
@@ -109,6 +109,6 @@ let gameboard = (() => {
     allShips,
     receiveAttack,
   };
-})();
+};
 
 export { gameboard };

@@ -3,13 +3,13 @@
 
 :root {
   /* Not in Use */
-  /* --accent_3: rgba(255, 102, 94, 30%);
+  --accent_3: rgba(255, 102, 94, 30%);
   --accent_7: rgba(255, 72, 176, 15%);
   --accent_7: rgba(0, 131, 138, 30%);
   --accent_7: rgba(255, 232, 0, 40%);
   --accent_3: rgba(255, 72, 176, 25%);
   --light_mix: rgba(152, 79, 155, 0.32);
-  --dark_mix: rgba(149, 79, 154, 0.55); */
+  --dark_mix: rgba(149, 79, 154, 0.55);
 
   --accent_1: rgba(61, 85, 136, 20%);
   --accent_2: rgba(61, 85, 136, 40%);
@@ -30,6 +30,9 @@ html {
 }
 body {
   margin-left: 2em;
+}
+h1 {
+  text-shadow: 3px 5px var(--accent_3);
 }
 .mainContainer {
   display: grid;

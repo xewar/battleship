@@ -1,22 +1,14 @@
 import { dom } from './dom.js';
 import { gameboard } from './gameboard.js';
+import { placeComputerShips } from './placeComputerShips.js';
+import { game } from './game.js';
+import { ship } from './ship.js';
 
 const eventHandler = (() => {
-  const { shipsArray, cells } = dom;
+  const { shipsArray, cells, changeOrientation } = dom;
+  const { hg, canvasSize } = game;
+
   const clickHandler = () => {
-    //rotating ships
-    let changeOrientation = e => {
-      let ship = e.target.parentElement;
-      if (ship.classList.contains('horizontal')) {
-        ship.classList.remove('horizontal');
-        ship.style.gridTemplateColumns = null;
-        ship.classList.add('vertical');
-      } else {
-        ship.classList.add('horizontal');
-        ship.classList.remove('vertical');
-        ship.style.gridTemplateColumns = `repeat(${ship.children.length},42px)`;
-      }
-    };
     //Dragging and dropping player ships
     let dragStart = e => {
       e.dataTransfer.setData('text/plain', e.target.id);
@@ -32,26 +24,32 @@ const eventHandler = (() => {
       e.preventDefault();
       e.target.classList.add('drag-over');
     };
-
     let dragLeave = e => {
       setTimeout(() => {
         //delay to add some visual interest
         e.target.classList.remove('drag-over');
       }, 1000);
     };
-
     let drop = e => {
-      e.target.classList.remove('drag-over');
-      // get the draggable element
       const id = e.dataTransfer.getData('text/plain');
       const currentShip = document.getElementById(id);
+
+      //checks to see if its possible to drop the ship there
+      // let attempt = hg.placeShip(
+      //   canvasSize,ship
+      // )
+      // console.log('rotation is', hg.allShips[id].rotation);
+      // console.log(canvasSize);
+      // console.log(e.target);
+
+      // placeComputerShips(hg, canvasSize);
+      // e.target.classList.remove('drag-over');
+
+      // get the draggable element
       currentShip.classList.add('placedShip');
 
       //workaround for a formatting issue (cells collapsing in horizontal placement)
       let shipLength = currentShip.children.length;
-      for (let cell of currentShip.children) {
-        console.log(cell);
-      }
       if (currentShip.classList.contains('horizontal')) {
         currentShip.classList.add('horizontalPlaced');
         currentShip.style.gridTemplateColumns = `repeat(${shipLength},42px)`;

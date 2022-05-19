@@ -1,3 +1,5 @@
+import { ship } from './ship';
+
 let placeComputerShips = (cg, canvasSize) => {
   let randomCoordinate = () => Math.round(Math.random() * 9, 0); //random coordinates
   let randomRotation = () => {
@@ -35,6 +37,7 @@ let placeComputerShips = (cg, canvasSize) => {
       return attempt;
     };
     result = tryPlacement(); //saves a successful placement
+    // cg.allShips[ship].rotation = rotation;
     cg.allShips[ship].position = attempt[0]; //updates ship
     cg.board = attempt[1]; //updates board
   }

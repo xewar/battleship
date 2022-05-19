@@ -1,6 +1,7 @@
 let ship = length => {
   let getLength = () => length;
   let position = {};
+  let rotation = 'horizontal';
   const hit = (strikeCoordinates, position) => {
     position[strikeCoordinates] = 'hit';
     return position;
@@ -16,7 +17,7 @@ let ship = length => {
     return sunk;
   };
 
-  return { getLength, hit, shipIsSunk, position };
+  return { getLength, hit, shipIsSunk, position, rotation };
 };
 
 export { ship };

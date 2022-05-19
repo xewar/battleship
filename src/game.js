@@ -9,17 +9,17 @@ import { placeComputerShips } from './placeComputerShips.js';
 let game = (() => {
   let canvasSize = 10; //standard size is 10x10
 
+  let hg = gameboard; //human player gameboard
+  hg.createBoard(canvasSize);
+
   let cg = gameboard; //computer gameboard
   cg.createBoard(canvasSize); //draw a board
   placeComputerShips(cg, canvasSize); //place computer ships randomly
-  // console.log(cg.board);
-  let hg = gameboard; //human player gameboard
-  hg.createBoard(canvasSize);
 
   //call placeship functions for each player
   //players take turn attacking
   // player enters coordinates, computer picks them automatically
-  return { cg, canvasSize };
+  return { cg, hg, canvasSize };
 })();
 
 export { game };

@@ -10,7 +10,7 @@ let dom = (() => {
   let createShip = () => {
     for (let ship in gameboard.allShips) {
       let shipDiv = document.createElement('div');
-      shipDiv.className = `ship`;
+      shipDiv.className = `ship horizontal`;
       shipDiv.draggable = true;
       for (let i = 0; i < gameboard.allShips[ship].getLength(); i++) {
         let cell = document.createElement('div');

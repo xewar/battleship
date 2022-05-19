@@ -1,11 +1,21 @@
 import { dom } from './dom.js';
+import { gameboard } from './gameboard.js';
 
 const eventHandler = (() => {
   const { shipsArray, cells } = dom;
   const clickHandler = () => {
     //rotating ships
     let changeOrientation = e => {
-      e.target.classList.add('vertical');
+      let ship = e.target.parentElement;
+      if (ship.classList.contains('horizontal')) {
+        ship.classList.remove('horizontal');
+        ship.style.gridTemplateColumns = null;
+        ship.classList.add('vertical');
+      } else {
+        ship.classList.add('horizontal');
+        ship.classList.remove('vertical');
+        ship.style.gridTemplateColumns = `repeat(${ship.children.length},42px)`;
+      }
     };
     //Dragging and dropping player ships
     let dragStart = e => {
@@ -37,8 +47,16 @@ const eventHandler = (() => {
       const currentShip = document.getElementById(id);
       currentShip.classList.add('placedShip');
 
-      // add it to the drop target
-      e.target.appendChild(currentShip);
+      //workaround for a formatting issue (cells collapsing in horizontal placement)
+      let shipLength = currentShip.children.length;
+      for (let cell of currentShip.children) {
+        console.log(cell);
+      }
+      if (currentShip.classList.contains('horizontal')) {
+        currentShip.classList.add('horizontalPlaced');
+        currentShip.style.gridTemplateColumns = `repeat(${shipLength},42px)`;
+      }
+      e.target.append(currentShip);
 
       // display the draggable element
       currentShip.classList.remove('hide');

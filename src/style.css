@@ -2,17 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 :root {
-  --accent_1: rgba(61, 85, 136, 20%);
-  --accent_2: rgba(61, 85, 136, 40%);
-  --accent_3: rgba(255, 72, 176, 15%);
-  --accent_4: rgba(255, 72, 176, 25%);
-  --accent_5: rgba(255, 102, 94, 30%);
-  --accent_7: rgba(241, 80, 96, 20%);
+  /* Not in Use */
+  /* --accent_3: rgba(255, 102, 94, 30%);
   --accent_7: rgba(255, 72, 176, 15%);
   --accent_7: rgba(0, 131, 138, 30%);
-
+  --accent_7: rgba(255, 232, 0, 40%);
+  --accent_3: rgba(255, 72, 176, 25%);
   --light_mix: rgba(152, 79, 155, 0.32);
-  --dark_mix: rgba(149, 79, 154, 0.55);
+  --dark_mix: rgba(149, 79, 154, 0.55); */
+
+  --accent_1: rgba(61, 85, 136, 20%);
+  --accent_2: rgba(61, 85, 136, 40%);
+  --accent_4: rgba(241, 80, 96, 30%);
+  --accent_3: rgba(255, 72, 176, 55%);
+  --accent_4: rgba(241, 80, 96, 35%);
+  --accent_3: rgba(255, 72, 176, 35%);
+  --accent_5: rgba(152, 79, 155, 0.32);
   --text: rgba(61, 85, 136, 85%);
   --background: white;
 }
@@ -79,6 +84,9 @@ p {
 .shipCell {
   background-color: var(--accent_3);
   border: 6px solid var(--accent_4);
+  position: relative;
+  /* top: -2px;
+  left: -2px; */
 }
 
 .description {
@@ -99,13 +107,15 @@ p {
   background-color: var(--light_mix);
   background-color: var(--accent_5);
 }
-/* .vertical {
-  flex-direction: row;
-} */
-.placedShip {
+.vertical {
   flex-direction: column;
+}
+
+.placedShip {
   margin: 0;
-  background-color: var(--accent_5);
+}
+.horizontalPlaced {
+  display: grid;
 }
 
 @media only screen and (max-width: 750px) {
@@ -122,6 +132,7 @@ p {
   .cell {
     height: 20px;
     width: 20px;
+    position: relative;
   }
   .gameboard {
     width: 320px;

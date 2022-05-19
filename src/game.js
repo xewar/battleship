@@ -12,7 +12,7 @@ let game = (() => {
   let cg = gameboard; //computer gameboard
   cg.createBoard(canvasSize); //draw a board
   placeComputerShips(cg, canvasSize); //place computer ships randomly
-
+  // console.log(cg.board);
   let hg = gameboard; //human player gameboard
   hg.createBoard(canvasSize);
 

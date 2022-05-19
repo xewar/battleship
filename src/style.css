@@ -6,6 +6,13 @@
   --accent_2: rgba(61, 85, 136, 40%);
   --accent_3: rgba(255, 72, 176, 15%);
   --accent_4: rgba(255, 72, 176, 25%);
+  --accent_5: rgba(255, 102, 94, 30%);
+  --accent_7: rgba(241, 80, 96, 20%);
+  --accent_7: rgba(255, 72, 176, 15%);
+  --accent_7: rgba(0, 131, 138, 30%);
+
+  --light_mix: rgba(152, 79, 155, 0.32);
+  --dark_mix: rgba(149, 79, 154, 0.55);
   --text: rgba(61, 85, 136, 85%);
   --background: white;
 }
@@ -32,12 +39,15 @@ body {
   grid-column: 1;
   margin-right: 25px;
   margin-left: 10px;
-  height: 300px;
+  height: max-content;
   padding: 10px;
 }
 p {
   margin-bottom: 0.5em;
   margin-top: 0;
+}
+.instructions {
+  margin-top: 2em;
 }
 .ships {
   display: flex;
@@ -64,7 +74,6 @@ p {
   height: 30px;
   width: 30px;
   background-color: var(--accent_1);
-
   border: 6px solid var(--accent_2);
 }
 .shipCell {
@@ -82,17 +91,46 @@ p {
   grid-column: 4;
 }
 
+/* Drag and drop styling */
+.hide {
+  display: none;
+}
+.drag-over {
+  background-color: var(--light_mix);
+  background-color: var(--accent_5);
+}
+/* .vertical {
+  flex-direction: row;
+} */
+.placedShip {
+  flex-direction: column;
+  margin: 0;
+  background-color: var(--accent_5);
+}
+
 @media only screen and (max-width: 750px) {
+  body {
+    margin-left: 0.2em;
+  }
   .mainContainer {
     display: grid;
-    grid-template-columns: 40px 400px 1fr;
+    grid-template-columns: 1fr 400px 1fr;
   }
   .computer {
     grid-column: 2;
   }
+  .cell {
+    height: 20px;
+    width: 20px;
+  }
+  .gameboard {
+    width: 320px;
+    height: 320px;
+  }
+
   .shipContainer {
     grid-column: 2;
-    width: 400px;
+    width: 300px;
     height: auto;
     margin: 0;
     margin-bottom: 1em;

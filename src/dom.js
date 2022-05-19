@@ -10,14 +10,15 @@ let dom = (() => {
   let createShip = () => {
     for (let ship in gameboard.allShips) {
       let shipDiv = document.createElement('div');
-      shipDiv.className = `${ship} ship`;
-      console.log(shipDiv);
+      shipDiv.className = `ship`;
+      shipDiv.draggable = true;
       for (let i = 0; i < gameboard.allShips[ship].getLength(); i++) {
         let cell = document.createElement('div');
         cell.className = 'cell shipCell';
-        cell.id = `${ship}, i`;
+        cell.id = `${ship}${i}`;
         shipDiv.append(cell);
       }
+      shipDiv.id = `${ship}`;
       ships.append(shipDiv);
     }
   };
@@ -36,6 +37,11 @@ let dom = (() => {
   };
   createGameboard(hgDiv);
   createGameboard(cgDiv);
+  let shipsDivs = document.querySelectorAll('.ship');
+  let shipsArray = [...shipsDivs];
+
+  let cells = document.querySelectorAll('.humanBoard > .cell');
+  return { shipsArray, cells };
 })();
 
-export default dom;
+export { dom };

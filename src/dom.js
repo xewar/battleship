@@ -2,7 +2,7 @@ import { game } from './game';
 import { gameboard } from './gameboard';
 
 let dom = (() => {
-  const { hg } = game;
+  const { hg, canvasSize } = game;
 
   let ships = document.querySelector('.ships');
   let hgDiv = document.querySelector('.humanBoard');
@@ -31,7 +31,7 @@ let dom = (() => {
       for (let j = 0; j < game.canvasSize; j++) {
         let cell = document.createElement('div');
         cell.className = 'cell';
-        cell.id = `[${i}, ${j}]`;
+        cell.id = `[${j}, ${i}]`;
         player.append(cell);
       }
     }
@@ -39,8 +39,52 @@ let dom = (() => {
   createDOMGameboard(hgDiv);
   createDOMGameboard(cgDiv);
 
-  //change orientation of ship from horizontal to vertical
+  //attempt to place ships
+  let attemptToPlaceShip = (shipId, attemptedCoordinates) => {
+    // checks to see if its possible to drop the ship there
+    let attempt = hg.placeShip(
+      canvasSize,
+      hg.board,
+      hg.allShips[shipId],
+      attemptedCoordinates,
+      hg.allShips[shipId].rotation
+    );
+    return attempt;
+  };
+  //clears position (for moving ships around on human gameboard)
+  let clearPosition = (shipId, oldPosition) => {
+    //clears position
+    hg.allShips[shipId].position = {};
+    for (let cell in oldPosition) {
+      //clears board
+      hg.board[cell][2] = null;
+    }
+  };
+  //if human ship placement is invalid, move ship back to old position
+  let restoreOldPosition = (shipId, oldPosition) => {
+    hg.allShips[shipId].position = oldPosition;
+    for (let cell in oldPosition) {
+      //clears board
+      hg.board[cell][2] = 'filled';
+    }
+  };
+  let updatePosition = (attempt, shipId) => {
+    hg.board = attempt[1];
+    hg.allShips[shipId].position = attempt[0];
+  };
+  let formattingWorkaround = currentShip => {
+    let shipLength = currentShip.children.length;
+    if (currentShip.classList.contains('horizontal')) {
+      currentShip.classList.add('horizontalPlaced');
+      if (window.innerWidth > 750) {
+        currentShip.style.gridTemplateColumns = `repeat(${shipLength},42px)`;
+      } else {
+        currentShip.style.gridTemplateColumns = `repeat(${shipLength},32px)`;
+      }
+    }
+  };
 
+  //change orientation of ship from horizontal to vertical
   let changeOrientation = e => {
     let ship = e.target.parentElement;
     if (ship.classList.contains('horizontal')) {
@@ -52,7 +96,12 @@ let dom = (() => {
       hg.allShips[ship.id].rotation = 'horizontal'; //changes the ships orientation
       ship.classList.add('horizontal');
       ship.classList.remove('vertical');
-      ship.style.gridTemplateColumns = `repeat(${ship.children.length},42px)`;
+      let shipLength = hg.allShips[ship.id].getLength();
+      if (window.innerWidth > 750) {
+        ship.style.gridTemplateColumns = `repeat(${shipLength},42px)`;
+      } else {
+        ship.style.gridTemplateColumns = `repeat(${shipLength},32px)`;
+      }
     }
   };
 
@@ -60,7 +109,16 @@ let dom = (() => {
   let shipsArray = [...shipsDivs];
 
   let cells = document.querySelectorAll('.humanBoard > .cell');
-  return { shipsArray, cells, changeOrientation };
+  return {
+    shipsArray,
+    cells,
+    changeOrientation,
+    attemptToPlaceShip,
+    clearPosition,
+    restoreOldPosition,
+    updatePosition,
+    formattingWorkaround,
+  };
 })();
 
 export { dom };

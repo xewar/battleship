@@ -137,6 +137,10 @@ p {
     width: 20px;
     position: relative;
   }
+
+  .shipCell {
+    position: relative;
+  }
   .gameboard {
     width: 320px;
     height: 320px;

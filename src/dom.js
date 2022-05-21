@@ -3,10 +3,11 @@ import { gameboard } from './gameboard';
 
 let dom = (() => {
   const { hg, canvasSize } = game;
-
+  let shipContainer = document.querySelector('.shipContainer');
   let ships = document.querySelector('.ships');
   let hgDiv = document.querySelector('.humanBoard');
   let cgDiv = document.querySelector('.computerBoard');
+  let instructions = document.querySelector('.instructions');
   //create ships
   let createShip = () => {
     for (let ship in hg.allShips) {
@@ -40,14 +41,14 @@ let dom = (() => {
   createDOMGameboard(cgDiv);
 
   //attempt to place ships
-  let attemptToPlaceShip = (shipId, attemptedCoordinates) => {
+  let attemptToPlaceShip = (shipId, attemptedCoordinates, rotation) => {
     // checks to see if its possible to drop the ship there
     let attempt = hg.placeShip(
       canvasSize,
       hg.board,
       hg.allShips[shipId],
       attemptedCoordinates,
-      hg.allShips[shipId].rotation
+      rotation
     );
     return attempt;
   };
@@ -104,20 +105,39 @@ let dom = (() => {
       }
     }
   };
+  let allShipsPlaced = () => {
+    if (ships.childNodes.length === 0) {
+      instructions.innerHTML = `Select a target on your opponent's board to begin the game.`;
+      // +'<br />' +
+      // `The ships are also shown above.`;
+      return true;
+    }
+  };
+  let startGame = () => {
+    if (allShipsPlaced() === true) {
+      console.log('game started');
+    }
+    return;
+  };
 
   let shipsDivs = document.querySelectorAll('.ship');
   let shipsArray = [...shipsDivs];
 
   let cells = document.querySelectorAll('.humanBoard > .cell');
+  let computerCells = document.querySelectorAll('.computerBoard > .cell ');
+
   return {
     shipsArray,
     cells,
+    computerCells,
     changeOrientation,
     attemptToPlaceShip,
     clearPosition,
     restoreOldPosition,
     updatePosition,
     formattingWorkaround,
+    allShipsPlaced,
+    startGame,
   };
 })();
 

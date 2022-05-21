@@ -8,6 +8,7 @@ import { player } from './player.js';
 const eventHandler = (() => {
   const {
     shipsArray,
+    computerCells,
     cells,
     attemptToPlaceShip,
     changeOrientation,
@@ -15,6 +16,8 @@ const eventHandler = (() => {
     restoreOldPosition,
     updatePosition,
     formattingWorkaround,
+    allShipsPlaced,
+    startGame,
   } = dom;
   const { hg, canvasSize } = game;
 
@@ -56,7 +59,11 @@ const eventHandler = (() => {
       let oldPosition = hg.allShips[shipId].position;
       let attemptedCoordinates = [+coordinateString[1], +coordinateString[4]];
       clearPosition(shipId, oldPosition);
-      let attempt = attemptToPlaceShip(shipId, attemptedCoordinates);
+      let attempt = attemptToPlaceShip(
+        shipId,
+        attemptedCoordinates,
+        hg.allShips[shipId].rotation
+      );
       if (attempt[0] == 0) {
         //attempt is invalid
         currentShip.classList.remove('hide');
@@ -87,6 +94,33 @@ const eventHandler = (() => {
       }
       //workaround for a formatting issue (cells collapsing in horizontal placement)
       formattingWorkaround(currentShip);
+      allShipsPlaced();
+      return true;
+    };
+
+    let tryOrientation = e => {
+      //check if rotating the ship would cause an overlap
+      let shipId = e.target.parentElement.id;
+      let coordinateString = e.target.parentElement.parentElement.id;
+      let oldPosition = hg.allShips[shipId].position;
+      let attemptedCoordinates = [+coordinateString[1], +coordinateString[4]];
+      clearPosition(shipId, oldPosition);
+      let attemptedRotation = 'horizontal';
+      if (hg.allShips[shipId].rotation === 'horizontal') {
+        attemptedRotation = 'vertical';
+      }
+      let attempt = attemptToPlaceShip(
+        shipId,
+        attemptedCoordinates,
+        attemptedRotation
+      );
+      if (attempt[0] === 0) {
+        restoreOldPosition(shipId, oldPosition);
+        return;
+      }
+      updatePosition(attempt, shipId);
+      changeOrientation(e);
+      allShipsPlaced();
     };
     cells.forEach(cell => {
       cell.addEventListener('dragenter', dragEnter);
@@ -94,9 +128,12 @@ const eventHandler = (() => {
       cell.addEventListener('dragleave', dragLeave);
       cell.addEventListener('drop', drop);
     });
+    computerCells.forEach(cell => {
+      cell.addEventListener('click', startGame);
+    });
     shipsArray.forEach(ship => {
       ship.addEventListener('dragstart', dragStart);
-      ship.addEventListener('dblclick', changeOrientation);
+      ship.addEventListener('dblclick', tryOrientation);
     });
   };
   const hoverHandler = () => {};

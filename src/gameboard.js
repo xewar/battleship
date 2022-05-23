@@ -75,15 +75,19 @@ let gameboard = () => {
   let receiveAttack = (coordinates, board, allShips, canvasSize) => {
     let convertedCoordinate = coordinates[0] + canvasSize * coordinates[1];
     if (board[convertedCoordinate][2] === 'filled') {
+      board[convertedCoordinate][2] === 'hit';
       //then sends the hit function to the correct ship
       for (const ship in allShips) {
         if (allShips[ship].position[convertedCoordinate] === 'filled') {
           allShips[ship].hit(convertedCoordinate, allShips[ship].position);
         }
       }
+      return true;
     } else {
+      board[convertedCoordinate][2] = 'missed';
       //or records the coordinates of the missed shot
       missedAttacks.push(convertedCoordinate);
+      return false;
     }
   };
 

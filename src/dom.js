@@ -2,7 +2,7 @@ import { game } from './game';
 import { gameboard } from './gameboard';
 
 let dom = (() => {
-  const { hg, canvasSize } = game;
+  const { hg, cg, canvasSize, human, computer } = game;
   let shipContainer = document.querySelector('.shipContainer');
   let ships = document.querySelector('.ships');
   let hgDiv = document.querySelector('.humanBoard');
@@ -113,18 +113,80 @@ let dom = (() => {
       return true;
     }
   };
-  let startGame = () => {
-    if (allShipsPlaced() === true) {
-      console.log('game started');
-    }
-    return;
-  };
 
   let shipsDivs = document.querySelectorAll('.ship');
   let shipsArray = [...shipsDivs];
 
   let cells = document.querySelectorAll('.humanBoard > .cell');
   let computerCells = document.querySelectorAll('.computerBoard > .cell ');
+
+  let humanCount = 0;
+  let computerCount = 0;
+  let renderAttack = (attackDiv, attackCoordinates, player) => {
+    let hitShip;
+    if (player === 'human') {
+      //added to guesses, and opposing players gameboard
+      human.guesses.push(attackCoordinates);
+      humanCount += 1;
+      hitShip = cg.receiveAttack(
+        attackCoordinates,
+        cg.board,
+        cg.allShips,
+        canvasSize
+      );
+    } else {
+      computer.guesses.push(attackCoordinates);
+      computerCount += 1;
+      hitShip = hg.receiveAttack(
+        attackCoordinates,
+        hg.board,
+        hg.allShips,
+        canvasSize
+      );
+      console.log('computerCount', computerCount, 'humanCount', humanCount);
+    }
+    //graphically represented in the DOM
+    if (hitShip === true) {
+      attackDiv.classList.add('hit');
+    } else {
+      attackDiv.classList.add('missed');
+    }
+    if (cg.allSunk(cg.allShips) || hg.allSunk(hg.allShips)) {
+      gameOver();
+    }
+    switchPlayer(player);
+  };
+  let switchPlayer = player => {
+    if (player === 'human') {
+      player = 'computer';
+      let guess = computerGuess();
+      let convertedGuess = guess[0] + canvasSize * guess[1];
+      let guessDiv = document.querySelector(
+        `.humanBoard :nth-child(${convertedGuess + 1})`
+      );
+      renderAttack(guessDiv, guess, 'computer');
+    } else {
+      player = 'human';
+    }
+  };
+  let computerGuess = () => {
+    let randomCoordinate = () => Math.round(Math.random() * 9, 0); //random coordinates
+    let guess = [randomCoordinate(), randomCoordinate()];
+    if (computer.guesses.includes(guess)) {
+      console.log('trying again');
+      computerGuess();
+    } else {
+      return guess;
+    }
+  };
+
+  let gameOver = () => {
+    if (cg.allSunk(cg.allShips)) {
+      instructions.textContent = 'Congratulations!';
+    } else {
+      instructions.textContent = "Sorry. You've lost.";
+    }
+  };
 
   return {
     shipsArray,
@@ -137,7 +199,7 @@ let dom = (() => {
     updatePosition,
     formattingWorkaround,
     allShipsPlaced,
-    startGame,
+    renderAttack,
   };
 })();
 

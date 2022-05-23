@@ -1,11 +1,6 @@
 import { gameboard } from './gameboard.js';
-import { ship } from './ship.js';
 import { player } from './player.js';
 import { placeComputerShips } from './placeComputerShips.js';
-// The game loop should set up a new game by creating Players and Gameboards.
-// For now just populate each Gameboard with predetermined coordinates.
-// You can implement a system for allowing players to place their ships later.
-
 let game = (() => {
   let canvasSize = 10; //standard size is 10x10
   let hg = gameboard(); //human player gameboard
@@ -13,11 +8,10 @@ let game = (() => {
   let cg = gameboard(); //computer gameboard
   cg.createBoard(canvasSize); //draw a board
   placeComputerShips(cg, canvasSize); //place computer ships randomly
+  let human = player(0);
+  let computer = player(1);
 
-  //call placeship functions for each player
-  //players take turn attacking
-  // player enters coordinates, computer picks them automatically
-  return { cg, hg, canvasSize };
+  return { cg, hg, canvasSize, human, computer };
 })();
 
 export { game };

@@ -6,13 +6,20 @@
   --accent_3: rgba(255, 102, 94, 30%);
   --accent_7: rgba(255, 72, 176, 15%);
   --accent_7: rgba(0, 131, 138, 30%);
-  --accent_7: rgba(255, 232, 0, 40%);
+  --accent_7: rgba(255, 232, 0, 90%);
   --accent_3: rgba(255, 72, 176, 25%);
   --light_mix: rgba(152, 79, 155, 0.32);
   --dark_mix: rgba(149, 79, 154, 0.55);
 
+  /* In use */
   --accent_1: rgba(61, 85, 136, 20%);
   --accent_2: rgba(61, 85, 136, 40%);
+  --hit: rgba(255, 72, 176, 45%);
+  --accent_6: rgba(241, 80, 96, 40%);
+  --hit: rgba(0, 131, 138, 40%);
+  --accent_6: rgba(255, 232, 0, 30%);
+  --missed: rgba(61, 85, 136, 55%);
+  --accent_7: rgba(61, 85, 136, 25%);
   --accent_4: rgba(241, 80, 96, 30%);
   --accent_3: rgba(255, 72, 176, 55%);
   --accent_4: rgba(241, 80, 96, 35%);
@@ -101,6 +108,22 @@ p {
 }
 .computer {
   grid-column: 4;
+}
+.hit {
+  /* background-color: var(--hit);
+  border: 6px solid var(--accent_6); */
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2;
+  color: var(--accent_2);
+  background-image: url(./images/anchor2.svg);
+  background-repeat: no-repeat;
+  /* filter: invert(53%) sepia(8%) saturate(2580%) hue-rotate(195deg)
+    brightness(90%) contrast(57%); */
+}
+.missed {
+  background-color: var(--missed);
+  border: 6px solid var(--accent_7);
 }
 
 /* Drag and drop styling */

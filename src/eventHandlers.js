@@ -1,9 +1,5 @@
 import { dom } from './dom.js';
-import { gameboard } from './gameboard.js';
-import { placeComputerShips } from './placeComputerShips.js';
 import { game } from './game.js';
-import { ship } from './ship.js';
-import { player } from './player.js';
 
 const eventHandler = (() => {
   const {
@@ -17,9 +13,9 @@ const eventHandler = (() => {
     updatePosition,
     formattingWorkaround,
     allShipsPlaced,
-    startGame,
+    renderAttack,
   } = dom;
-  const { hg, canvasSize } = game;
+  const { hg } = game;
 
   const clickHandler = () => {
     //Dragging and dropping player ships
@@ -122,6 +118,27 @@ const eventHandler = (() => {
       changeOrientation(e);
       allShipsPlaced();
     };
+    let startGame = e => {
+      if (allShipsPlaced() === true) {
+        freezeShips();
+        let firstAttackCoordinates = [+e.target.id[1], +e.target.id[4]];
+        renderAttack(e.target, firstAttackCoordinates, 'human');
+      }
+      return;
+    };
+    let freezeShips = () => {
+      shipsArray.forEach(ship => {
+        ship.removeEventListener('dragstart', dragStart);
+        ship.removeEventListener('dblclick', tryOrientation);
+        ship.draggable = false;
+      });
+      cells.forEach(cell => {
+        cell.removeEventListener('dragenter', dragEnter);
+        cell.removeEventListener('dragover', dragOver);
+        cell.removeEventListener('dragleave', dragLeave);
+        cell.removeEventListener('drop', drop);
+      });
+    };
     cells.forEach(cell => {
       cell.addEventListener('dragenter', dragEnter);
       cell.addEventListener('dragover', dragOver);
@@ -135,6 +152,9 @@ const eventHandler = (() => {
       ship.addEventListener('dragstart', dragStart);
       ship.addEventListener('dblclick', tryOrientation);
     });
+    const freezeComputerCells = () => {
+      console.log('test');
+    };
   };
   const hoverHandler = () => {};
 

@@ -1,5 +1,4 @@
 import { gameboard } from './gameboard.js';
-import { player } from './player.js';
 import { placeComputerShips } from './placeComputerShips.js';
 
 let game = (() => {
@@ -9,8 +8,8 @@ let game = (() => {
   let cg = gameboard(); //computer gameboard
   cg.createBoard(canvasSize); //draw a board
   placeComputerShips(cg, canvasSize); //place computer ships randomly
-  let human = player();
-  let computer = player();
+  const human = { guesses: [] };
+  let computer = { guesses: [] };
 
   let updateGameboard = (player, attackCoordinates) => {
     if (player === 'human') {

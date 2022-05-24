@@ -1,5 +1,3 @@
-import { ship } from './ship';
-
 let placeComputerShips = (cg, canvasSize) => {
   let randomCoordinate = () => Math.round(Math.random() * 9, 0); //random coordinates
   let randomRotation = () => {

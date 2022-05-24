@@ -127,11 +127,17 @@ const eventHandler = (() => {
       changeOrientation(e);
       allShipsPlaced();
     };
-    let startGame = e => {
+    let gameStarted = 0;
+    let playGame = e => {
       if (allShipsPlaced() === true) {
-        freezeShips();
+        if (gameStarted === 0) {
+          freezeShips();
+          gameStarted = 1;
+        }
         let firstAttackCoordinates = [+e.target.id[1], +e.target.id[4]];
         renderAttack(e.target, firstAttackCoordinates, 'human');
+        //can't click on the same cell twice
+        e.target.removeEventListener('click', playGame);
       }
       return;
     };
@@ -155,19 +161,15 @@ const eventHandler = (() => {
       cell.addEventListener('drop', drop);
     });
     computerCells.forEach(cell => {
-      cell.addEventListener('click', startGame);
+      cell.addEventListener('click', playGame);
     });
     shipsArray.forEach(ship => {
       ship.addEventListener('dragstart', dragStart);
       ship.addEventListener('dblclick', tryOrientation);
     });
-    const freezeComputerCells = () => {
-      console.log('test');
-    };
   };
-  const hoverHandler = () => {};
 
-  return { clickHandler, hoverHandler };
+  return { clickHandler };
 })();
 
 export { eventHandler };

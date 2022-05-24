@@ -1,5 +1,6 @@
 import { ship } from './ship.js';
 
+//created for each player
 let gameboard = () => {
   const allShips = {
     carrier: ship(5),

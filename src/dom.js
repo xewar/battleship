@@ -3,7 +3,6 @@ import { gameboard } from './gameboard';
 
 let dom = (() => {
   const { hg, cg, canvasSize, human, computer, updateGameboard } = game;
-  let shipContainer = document.querySelector('.shipContainer');
   let ships = document.querySelector('.ships');
   let hgDiv = document.querySelector('.humanBoard');
   let cgDiv = document.querySelector('.computerBoard');

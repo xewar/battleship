@@ -18,6 +18,15 @@ const eventHandler = (() => {
   const { hg } = game;
 
   const clickHandler = () => {
+    const resetButton = document.getElementById('reset');
+    resetButton.addEventListener('click', function () {
+      pageRefresh();
+    });
+    let pageRefresh = () => {
+      console.log('hi');
+      window.location.reload();
+    };
+
     //Dragging and dropping player ships
     let dragStart = e => {
       //grab the id of the ship that's being dragged

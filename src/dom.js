@@ -120,14 +120,11 @@ let dom = (() => {
   let cells = document.querySelectorAll('.humanBoard > .cell');
   let computerCells = document.querySelectorAll('.computerBoard > .cell ');
 
-  let humanCount = 0;
-  let computerCount = 0;
   let renderAttack = (attackDiv, attackCoordinates, player) => {
     let hitShip;
     if (player === 'human') {
       //added to guesses, and opposing players gameboard
       human.guesses.push(attackCoordinates);
-      humanCount += 1;
       hitShip = cg.receiveAttack(
         attackCoordinates,
         cg.board,
@@ -136,7 +133,6 @@ let dom = (() => {
       );
     } else {
       computer.guesses.push(attackCoordinates);
-      computerCount += 1;
       hitShip = hg.receiveAttack(
         attackCoordinates,
         hg.board,
@@ -185,7 +181,7 @@ let dom = (() => {
 
   let gameOver = () => {
     if (cg.allSunk(cg.allShips)) {
-      instructions.textContent = 'Congratulations!';
+      instructions.textContent = 'Congratulations! You won.';
     } else {
       instructions.textContent = "Sorry. You've lost.";
     }

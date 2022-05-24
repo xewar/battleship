@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battleship</title>
+  <script defer src="runtime.bundle.js"></script><script defer src="main.bundle.js"></script></head>
+  <body>
+    <div id="left">
+      <div class="top">
+        <div class="shipContainer">
+          <div class="ships"></div>
+          <div class="instructions">
+            <p>Drag and drop your ships onto your board.</p>
+            <p><em>(Double-click to rotate them)</em></p>
+          </div>
+        </div>
+        <button id="reset">Reset</button>
+      </div>
+      <div class="battleship"></div>
+      <!-- <h1 class="header">Battleship</h1> -->
+    </div>
+
+    <div class="mainContainer">
+      <div class="human">
+        <div class="humanBoard gameboard"></div>
+        <div class="description">Your Board</div>
+        <div></div>
+      </div>
+      <div class="computer">
+        <div class="computerBoard gameboard"></div>
+        <div class="description">Computer's Board</div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -103,6 +103,7 @@ let gameboard = () => {
     }
     return true;
   };
+
   return {
     allSunk,
     createBoard,

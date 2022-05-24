@@ -2,7 +2,7 @@ import { game } from './game';
 import { gameboard } from './gameboard';
 
 let dom = (() => {
-  const { hg, cg, canvasSize, human, computer } = game;
+  const { hg, cg, canvasSize, human, computer, updateGameboard } = game;
   let shipContainer = document.querySelector('.shipContainer');
   let ships = document.querySelector('.ships');
   let hgDiv = document.querySelector('.humanBoard');
@@ -52,12 +52,13 @@ let dom = (() => {
     );
     return attempt;
   };
-  //clears position (for moving ships around on human gameboard)
+
+  //clears position (when moving ships around on human gameboard)
   let clearPosition = (shipId, oldPosition) => {
     //clears position
     hg.allShips[shipId].position = {};
+    //clears board
     for (let cell in oldPosition) {
-      //clears board
       hg.board[cell][2] = null;
     }
   };
@@ -73,6 +74,7 @@ let dom = (() => {
     hg.board = attempt[1];
     hg.allShips[shipId].position = attempt[0];
   };
+  //corrects for sizing issue when moving between desktop and mobile view
   let formattingWorkaround = currentShip => {
     let shipLength = currentShip.children.length;
     if (currentShip.classList.contains('horizontal')) {
@@ -84,7 +86,6 @@ let dom = (() => {
       }
     }
   };
-
   //change orientation of ship from horizontal to vertical
   let changeOrientation = e => {
     let ship = e.target.parentElement;
@@ -108,41 +109,22 @@ let dom = (() => {
   let allShipsPlaced = () => {
     if (ships.childNodes.length === 0) {
       instructions.innerHTML = `Select a target on your opponent's board to begin the game.`;
-      // +'<br />' +
-      // `The ships are also shown above.`;
       return true;
     }
   };
 
   let shipsDivs = document.querySelectorAll('.ship');
   let shipsArray = [...shipsDivs];
-
   let cells = document.querySelectorAll('.humanBoard > .cell');
   let computerCells = document.querySelectorAll('.computerBoard > .cell ');
 
+  //this is the main gameplay function
   let renderAttack = (attackDiv, attackCoordinates, player) => {
-    let hitShip;
-    if (player === 'human') {
-      //added to guesses, and opposing players gameboard
-      human.guesses.push(attackCoordinates);
-      hitShip = cg.receiveAttack(
-        attackCoordinates,
-        cg.board,
-        cg.allShips,
-        canvasSize
-      );
-    } else {
-      computer.guesses.push(attackCoordinates);
-      hitShip = hg.receiveAttack(
-        attackCoordinates,
-        hg.board,
-        hg.allShips,
-        canvasSize
-      );
-      console.log('computerCount', computerCount, 'humanCount', humanCount);
-    }
-    //graphically represented in the DOM
+    //update the computer and human gameboards
+    let hitShip = updateGameboard(player, attackCoordinates);
+    //update the DOM
     if (hitShip === true) {
+      //a ship has been hit
       attackDiv.classList.add('hit');
       if (player === 'computer') {
         attackDiv.classList.add('computerHit');
@@ -158,7 +140,7 @@ let dom = (() => {
   let switchPlayer = player => {
     if (player === 'human') {
       player = 'computer';
-      let guess = computerGuess();
+      let guess = computerGuess(); //computer guesses randomly
       let convertedGuess = guess[0] + canvasSize * guess[1];
       let guessDiv = document.querySelector(
         `.humanBoard :nth-child(${convertedGuess + 1})`
@@ -171,12 +153,13 @@ let dom = (() => {
   let computerGuess = () => {
     let randomCoordinate = () => Math.round(Math.random() * 9, 0); //random coordinates
     let guess = [randomCoordinate(), randomCoordinate()];
-    if (computer.guesses.includes(guess)) {
-      console.log('trying again');
-      computerGuess();
-    } else {
-      return guess;
+    console.log(guess, count);
+    for (let array of computer.guesses) {
+      if (array[0] === guess[0] && array[1] === guess[1]) {
+        return computerGuess();
+      }
     }
+    return guess;
   };
 
   let gameOver = () => {

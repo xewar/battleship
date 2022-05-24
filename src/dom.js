@@ -148,6 +148,9 @@ let dom = (() => {
     //graphically represented in the DOM
     if (hitShip === true) {
       attackDiv.classList.add('hit');
+      if (player === 'computer') {
+        attackDiv.classList.add('computerHit');
+      }
     } else {
       attackDiv.classList.add('missed');
     }

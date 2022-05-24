@@ -110,16 +110,19 @@ p {
   grid-column: 4;
 }
 .hit {
-  /* background-color: var(--hit);
-  border: 6px solid var(--accent_6); */
   text-align: center;
   font-weight: bold;
   font-size: 1.2;
   color: var(--accent_2);
-  background-image: url(./images/anchor2.svg);
+  background-image: url(./images/anchor3.svg);
   background-repeat: no-repeat;
-  /* filter: invert(53%) sepia(8%) saturate(2580%) hue-rotate(195deg)
-    brightness(90%) contrast(57%); */
+}
+.computerHit {
+  background-image: url(./images/anchor.svg);
+  background-position: 5px 5px;
+  background-size: 75%;
+  z-index: 2;
+  opacity: 90%;
 }
 .missed {
   background-color: var(--missed);

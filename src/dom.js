@@ -153,7 +153,6 @@ let dom = (() => {
   let computerGuess = () => {
     let randomCoordinate = () => Math.round(Math.random() * 9, 0); //random coordinates
     let guess = [randomCoordinate(), randomCoordinate()];
-    console.log(guess, count);
     for (let array of computer.guesses) {
       if (array[0] === guess[0] && array[1] === guess[1]) {
         return computerGuess();

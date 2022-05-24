@@ -8,6 +8,7 @@
   --accent_3: rgba(255, 72, 176, 30%);
   --accent_4: rgba(241, 80, 96, 35%);
   --accent_5: rgba(152, 79, 155, 0.32);
+  --accent_6: rgba(61, 85, 136, 65%);
   --missed: rgba(61, 85, 136, 46%);
   --text: rgba(61, 85, 136, 85%);
   --background: white;
@@ -20,55 +21,70 @@ html {
   height: 100%;
   width: 100%;
 }
-
-.top {
-  margin-left: 0;
-  background-color: var(--background);
-  padding: 0.1em;
-  margin: 0 0 1em 0;
-  width: 200vw;
+body {
+  display: flex;
 }
+
 h1 {
   color: var(--accent_2);
-  font-weight: normal;
-  font-size: 2.5em;
-  margin-left: 1em;
+  font-weight: 400;
+  font-size: 8.5em;
+  line-height: 0;
   text-transform: uppercase;
+  position: relative;
+  left: 320px;
+  /* transform: rotate(-90deg); */
+}
+.battleship {
+  background-image: url(./images/battleshipBlue.svg);
+  background-repeat: no-repeat;
+  color: var(--accent_2);
+  height: 200px;
+  width: 200px;
 }
 .mainContainer {
-  margin-top: 4.5em;
+  display: flex;
+  margin-top: 1.5em;
   margin-left: 2em;
-  display: grid;
-  grid-template-columns: 300px 400px 5vw 400px 1fr;
-  grid-template-rows: max-content 1fr;
+  gap: 2em;
 }
 #left {
-  grid-column: 1;
-  grid-row: 1;
+  justify-content: space-between;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
   gap: 20px;
+  max-width: 300px;
+  padding-left: 1em;
+  padding-top: 1em;
+  background-color: var(--accent_6);
+  height: 100vh;
 }
-
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
 .shipContainer {
   display: flex;
-  grid-row: 1;
   flex-direction: column;
   justify-content: space-between;
   border: 6px solid var(--accent_2);
-  grid-column: 1;
   margin-right: 25px;
+  margin-top: 0.9em;
   height: max-content;
   padding: 10px;
+  background-color: white;
 }
 #reset {
   border: none;
-  background-color: var(--accent_0);
+  background-color: var(--accent_2);
+  border: 2px solid var(--accent_0);
   width: 10em;
   height: 2em;
+  z-index: 2;
   text-transform: uppercase;
-  color: var(--text);
+  color: white;
 }
 p {
   margin-bottom: 0.5em;
@@ -111,21 +127,12 @@ p {
   border: 6px solid var(--accent_4);
   position: relative;
   z-index: 3;
-  /* top: -6px;
-  left: -6px; */
 }
 
 .description {
   margin-top: 2vh;
 }
-.human {
-  grid-column: 2;
-  grid-row: 1;
-}
-.computer {
-  grid-column: 4;
-  grid-row: 1;
-}
+
 .hit {
   text-align: center;
   font-weight: bold;
@@ -167,26 +174,31 @@ p {
 
 @media only screen and (max-width: 800px) {
   body {
-    margin-left: 0.2em;
+    display: flex;
+    margin-left: 5vw;
+    gap: 0.5em;
+    flex-direction: column;
+    background-color: var(--accent_1);
   }
   .mainContainer {
-    display: grid;
-    grid-template-columns: 5vw 400px 2fr;
-    justify-items: left;
+    display: flex;
+    flex-direction: column;
     margin: 0;
   }
-  .computer {
-    grid-column: 2;
-    grid-row: 4;
+  .description {
+    color: white;
+    font-weight: 500;
+    font-size: 1.5em;
   }
-  .human {
-    grid-row: 3;
+
+  .battleship {
+    display: none;
   }
   #left {
-    grid-column: 2;
-    grid-row: 2;
     flex-direction: column-reverse;
-    margin-left: 0;
+    height: max-content;
+    background-color: transparent;
+    width: 100vw;
   }
 
   .cell {
@@ -207,10 +219,8 @@ p {
   }
 
   .shipContainer {
-    grid-column: 2;
     width: 300px;
     height: auto;
     margin: 0;
-    margin-bottom: 1em;
   }
 }
